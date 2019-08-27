@@ -1,0 +1,65 @@
+<apex:page controller="AppointmentTableController" docType="html-5.0">
+    <apex:form >
+    	
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:actionFunction action="{!setAppointmentDates}" name="changedDoctors"
+                                 reRender="table,data,values"/>
+            
+        	<apex:pageBlock >
+            	Doctor:<apex:selectList size="1" value="{!doctorID}" multiselect="false" onchange="changedDoctors();">
+            		<apex:selectOptions value="{!doctorSelectOptionList}"/>
+            	</apex:selectList> 
+            
+            <apex:commandButton action="{!addNewDoctor}" value="Add new doctor"/>
+            </apex:pageBlock>
+            
+            <apex:pageBlockSection id="data" title="Working hours">
+            	<apex:pageBlockTable value="{!schedule}" var="data">
+            		<apex:column value="{!data.Working_Hours_Start__c}"/>
+                    <apex:column value="{!data.Workng_Hours_End__c}"/>
+            	</apex:pageBlockTable>
+            </apex:pageBlockSection>
+            <apex:pageBlock >
+            	Patient: 
+            	<apex:selectList size="1" value="{!patientID}" >
+                	<apex:selectOptions value="{!patientSelectOptionList}" />
+            	</apex:selectList> <br/>
+            
+                <apex:commandButton action="{!addNewPatient}" value="Add new patient"/>
+            </apex:pageBlock>
+            
+            <apex:pageBlock >
+            	Appointments date:
+            	<apex:inputField required="false" type="datetime-local" value="{!dateFromInput.Appointment_Date__c}"/>
+             	<br/>
+            	
+            	Duration:
+            	<apex:inputField type="number" value="{!duration.Duration_in__c}" required="false"/>
+            </apex:pageBlock>
+            
+            	<apex:commandButton action="{!addNewAppointment}" value="Add new Appointments" onclick="changedDoctors();" />
+            
+            <apex:pageBlockSection columns="1" id="table" title="Appointments">
+                
+                <apex:pageBlockTable value="{!appointDates}" var="item">
+                    <apex:column headerValue="Action" ><a href="https://ap15.salesforce.com/{!item.id}">View</a></apex:column>
+                    <apex:column value="{!item.Doctor__r.Name}"/>
+                    <apex:column value="{!item.Patient__r.Name}"/>
+                    <apex:column value="{!item.Appointment_Date__c}"/>
+                    <apex:column value="{!item.Duration_in__c}"/>
+                </apex:pageBlockTable>
+                    
+                    <apex:panelGrid columns="5" cellspacing="5">
+                		<apex:commandButton Value="First" action="{!first}" rerender="table" disabled="{!!setCon.hasPrevious}"/>
+                		<apex:commandButton Value="Next" action="{!next}" rerender="table" disabled="{!!setCon.hasNext}"/>
+                		<apex:commandButton Value="Previous" action="{!previous}" rerender="table" disabled="{!!setCon.hasPrevious}"/>
+            			<apex:commandButton Value="Last" action="{!last}" rerender="table" disabled="{!!setCon.hasNext}"/>
+	                	<apex:outputText > Showing :{!(pageNumber*size)+1-size}-{!IF((pageNumber*size)>noOfRecords, noOfRecords,
+ 							(pageNumber*size))} of {!noOfRecords}
+						</apex:outputText> 
+                    </apex:panelGrid> <br/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

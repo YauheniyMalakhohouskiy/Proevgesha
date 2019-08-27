@@ -1,0 +1,17 @@
+<apex:page controller="NewPatientController" docType="html-5.0">
+    
+    <apex:form >
+        <apex:pageMessages />
+        
+        <apex:pageBlock >
+        
+            Insert Name <apex:inputField required="false" value="{!namePatient.Name}" type="text" />
+        </apex:pageBlock>
+        
+        <apex:panelGrid columns="2" cellspacing="2">
+                
+                <apex:commandButton value="Save" action="{!addPatient}"/>
+                <apex:commandButton value="Close" action="{!close}"/>
+            </apex:panelGrid>
+    </apex:form>
+</apex:page>

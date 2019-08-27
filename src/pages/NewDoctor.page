@@ -1,0 +1,32 @@
+<apex:page controller="NewDoctorController" docType="html-5.0">
+    <apex:form >
+    	<apex:pageMessages />
+        
+        <apex:pageBlock >
+        
+            <left>
+            
+                Insert Name<apex:inputField required="false" value="{!doctorName.Name}" type="text" />
+            </left>
+            <br/> <br/>
+            <left>
+            
+                Insert Working Hours Start
+            </left>
+            
+            <apex:inputField required="false" value="{!workingHoursStart.Working_Hours_Start__c}" type="time" />
+            
+            <right>
+            
+                Insert Working Hours End<apex:inputField required="false" value="{!workingHoursEnd.Workng_Hours_End__c}" type="time" />
+            </right>
+            
+            <apex:panelGrid columns="2" cellspacing="2">
+                
+                <apex:commandButton value="Save" action="{!addDoctor}"/>
+                <apex:commandButton value="Close" action="{!close}"/>
+            </apex:panelGrid>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>
